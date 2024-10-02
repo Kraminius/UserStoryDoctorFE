@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Input, Button, Row, Col } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import {Content, ContentSection, MinPara, Link} from './styles';
+import { Fade } from "react-awesome-reveal";
+import { Content, ContentSection, Link } from './styles';
+import { SvgIcon } from "../../common/SvgIcon";
 
 interface Defect {
     defectType: string;
@@ -47,8 +49,6 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
         }
     };
 
-
-
     useEffect(() => {
         // Check for duplicates whenever stories change
         checkForDuplicates();
@@ -63,13 +63,11 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
         }
     }, [stories, focusStoryId, checkForDuplicates]);
 
-
     const handleAddStory = () => {
         const newStory = { id: Date.now(), text: '', defects: null };
         setStories([...stories, newStory]);
         setFocusStoryId(newStory.id);
     };
-
 
     const handleRemoveStory = (id: number) => {
         setStories(stories.filter((story) => story.id !== id));
@@ -90,15 +88,11 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
         }
     };
 
-
-
-
-
     const handleAnalyse = async () => {
         try {
             const payload = stories
                 .filter((story) => story.text.trim() !== '')
-                .map((story) => ({ StoryText: story.text }));
+                .map((story) => ({ Id: story.id, StoryText: story.text }));
 
             // @ts-ignore
             const response = await axios.post<AnalysisResult[]>(
@@ -113,7 +107,7 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
 
             const updatedStories = stories.map((story) => {
                 const apiResponse = response.data.find(
-                    (res: { userStory: string; }) => res.userStory === story.text
+                    (res: { id: number }) => res.id === story.id
                 );
                 return {
                     ...story,
@@ -126,95 +120,109 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
         }
     };
 
-    // @ts-ignore
     return (
         <ContentSection id={id}>
-            <h2>User Story Analysis</h2>
-            <Content> Insert your user stories to test them for defects. Tip: Use "Tab" after each user story. <br/> This will use the AQUSA-core module described <Link href="https://github.com/RELabUU/aqusa-core">
-                {(`here`)}
-            </Link> to look for User Story Defects.
-            </Content>
-            <br/>
-            {stories.map((story) => (
-                <div key={story.id} style={{ marginBottom: '20px' }}>
-                    <Row gutter={[16, 16]} align="top">
-                        <Col span={24}>
-                            <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-                                <Input.TextArea
-                                    id={`story-${story.id}`}
-                                    placeholder="Enter your user story"
-                                    value={story.text}
-                                    onChange={(e) => handleChange(story.id, e.target.value)}
-                                    onKeyDown={(e) => handleKeyDown(e, story.id)}
-                                    style={{ flex: 1 }}
-                                    autoSize={{ minRows: 2, maxRows: 6 }}
-                                />
-                                <Button
-                                    type="text"
-                                    icon={<CloseOutlined />}
-                                    onClick={() => handleRemoveStory(story.id)}
-                                    style={{
-                                        marginLeft: '8px',
-                                        color: '#999',
-                                        padding: 0,
-                                        marginTop: '4px',
-                                    }}
-                                />
+            <Fade direction="left" triggerOnce>
+                <Row justify="space-between" align="middle">
+                    <Col lg={11} md={11} sm={24} xs={24}>
+                        <SvgIcon
+                            src={"product-launch.svg"}
+                            width="100%"
+                            height="100%"
+                        />
+                    </Col>
+                    <Col lg={11} md={11} sm={24} xs={24}>
+                        <h2>User Story Analysis</h2>
+                        <Content>
+                            Insert your user stories to test them for defects. Tip: Use "Tab" after each user story.
+                            <br />
+                            This will use the AQUSA-core module described <Link href="https://github.com/RELabUU/aqusa-core">
+                            here
+                        </Link> to look for User Story Defects.
+                        </Content>
+                        {stories.map((story) => (
+                            <div key={story.id} style={{ marginBottom: '20px' }}>
+                                <Row gutter={[16, 16]} align="top">
+                                    <Col span={24}>
+                                        <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+                                            <Input.TextArea
+                                                id={`story-${story.id}`}
+                                                placeholder="Enter your user story"
+                                                value={story.text}
+                                                onChange={(e) => handleChange(story.id, e.target.value)}
+                                                onKeyDown={(e) => handleKeyDown(e, story.id)}
+                                                style={{ flex: 1 }}
+                                                autoSize={{ minRows: 2, maxRows: 6 }}
+                                            />
+                                            <Button
+                                                type="text"
+                                                icon={<CloseOutlined />}
+                                                onClick={() => handleRemoveStory(story.id)}
+                                                style={{
+                                                    marginLeft: '8px',
+                                                    color: '#999',
+                                                    padding: 0,
+                                                    marginTop: '4px',
+                                                }}
+                                            />
+                                        </div>
+                                        {story.defects && story.defects.length > 0 && (
+                                            <div
+                                                style={{
+                                                    backgroundColor:
+                                                        story.defects.length === 1 && story.defects[0].defectType === 'None'
+                                                            ? '#d4edda'
+                                                            : '#f8d7da',
+                                                    padding: '10px',
+                                                    marginTop: '5px',
+                                                    marginRight: '40px',
+                                                }}
+                                            >
+                                                {story.defects.length === 1 && story.defects[0].defectType === 'None' ? (
+                                                    <span>✅ No defects found</span>
+                                                ) : (
+                                                    <>
+                                                        <span>❌ Defects found:</span>
+                                                        {story.defects.map((defect, idx) => (
+                                                            <div key={idx} style={{ marginLeft: '10px', marginTop: '5px' }}>
+                                                                <div><strong>Message:</strong> {defect.message}</div>
+                                                                <div><strong>Defect Type:</strong> {defect.defectType}</div>
+                                                                <div><strong>Subkind:</strong> {defect.subkind}</div>
+                                                            </div>
+                                                        ))}
+                                                    </>
+                                                )}
+                                            </div>
+                                        )}
+                                    </Col>
+                                </Row>
                             </div>
-                            {story.defects && story.defects.length > 0 && (
-                                <div
-                                    style={{
-                                        backgroundColor:
-                                            story.defects.length === 1 && story.defects[0].defectType === 'None'
-                                                ? '#d4edda'
-                                                : '#f8d7da',
-                                        padding: '10px',
-                                        marginTop: '5px',
-                                        marginRight: '40px',
-                                    }}
-                                >
-                                    {story.defects.length === 1 && story.defects[0].defectType === 'None' ? (
-                                        <span>✅ No defects found</span>
-                                    ) : (
-                                        <>
-                                            <span>❌ Defects found:</span>
-                                            {story.defects.map((defect, idx) => (
-                                                <div key={idx} style={{ marginLeft: '10px', marginTop: '5px' }}>
-                                                    <div><strong>Message:</strong> {defect.message}</div>
-                                                    <div><strong>Defect Type:</strong> {defect.defectType}</div>
-                                                    <div><strong>Subkind:</strong> {defect.subkind}</div>
-                                                </div>
-                                            ))}
-                                        </>
-                                    )}
-                                </div>
-                            )}
-                        </Col>
-                    </Row>
-                </div>
-            ))}
-            <Button
-                type="dashed"
-                onClick={handleAddStory}
-                style={{ width: '100%', marginTop: '10px'}}
-            >
-                Add another story
-            </Button>
-            <Button
-                type="primary"
-        onClick={handleAnalyse}
-        disabled={hasDuplicates}
-        style={{ width: '100%', marginTop: '10px' }}
-      >
-        Analyze
-      </Button>
-      {errorMessage && (
-        <div style={{ color: 'red', marginTop: '10px', textAlign: 'center' }}>
-          {errorMessage}
-        </div>
-      )}
-    </ContentSection>
-  );
+                        ))}
+                        <Button
+                            type="dashed"
+                            onClick={handleAddStory}
+                            style={{ width: '100%', marginTop: '10px' }}
+                        >
+                            Add another story
+                        </Button>
+                        <Button
+                            type="primary"
+                            onClick={handleAnalyse}
+                            disabled={hasDuplicates}
+                            style={{ width: '100%', marginTop: '10px' }}
+                        >
+                            Analyze
+                        </Button>
+                        {errorMessage && (
+                            <div style={{ color: 'red', marginTop: '10px', textAlign: 'center' }}>
+                                {errorMessage}
+                            </div>
+                        )}
+                    </Col>
+                </Row>
+            </Fade>
+        </ContentSection>
+    );
 };
 
 export default UserStoryAnalysis;
