@@ -126,7 +126,7 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
                 <Row justify="space-between" align="middle">
                     <Col lg={11} md={11} sm={12} xs={24}>
                         <SvgIcon
-                            src={"userstorydoc.png"}
+                            src={"waving.svg"}
                             width="100%"
                             height="100%"
                         />
@@ -135,28 +135,29 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
                         <h2>User Story Analysis</h2>
                         <Content>
                             Insert your user stories to test them for defects. Tip: Use "Tab" after each user story.
-                            <br />
-                            This will use the AQUSA-core module described <Link href="https://github.com/RELabUU/aqusa-core">
+                            <br/>
+                            This will use the AQUSA-core module described <Link
+                            href="https://github.com/RELabUU/aqusa-core">
                             here
                         </Link> to look for User Story Defects.
                         </Content>
                         {stories.map((story) => (
-                            <div key={story.id} style={{ marginBottom: '20px' }}>
+                            <div key={story.id} style={{marginBottom: '20px'}}>
                                 <Row gutter={[16, 16]} align="top">
                                     <Col span={24}>
-                                        <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+                                        <div style={{display: 'flex', alignItems: 'flex-start'}}>
                                             <Input.TextArea
                                                 id={`story-${story.id}`}
                                                 placeholder="Enter your user story"
                                                 value={story.text}
                                                 onChange={(e) => handleChange(story.id, e.target.value)}
                                                 onKeyDown={(e) => handleKeyDown(e, story.id)}
-                                                style={{ flex: 1 }}
-                                                autoSize={{ minRows: 2, maxRows: 6 }}
+                                                style={{flex: 1}}
+                                                autoSize={{minRows: 2, maxRows: 6}}
                                             />
                                             <Button
                                                 type="text"
-                                                icon={<CloseOutlined />}
+                                                icon={<CloseOutlined/>}
                                                 onClick={() => handleRemoveStory(story.id)}
                                                 style={{
                                                     marginLeft: '8px',
@@ -184,9 +185,11 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
                                                     <>
                                                         <span>❌ Defects found:</span>
                                                         {story.defects.map((defect, idx) => (
-                                                            <div key={idx} style={{ marginLeft: '10px', marginTop: '5px' }}>
+                                                            <div key={idx}
+                                                                 style={{marginLeft: '10px', marginTop: '5px'}}>
                                                                 <div><strong>Message:</strong> {defect.message}</div>
-                                                                <div><strong>Defect Type:</strong> {defect.defectType}</div>
+                                                                <div><strong>Defect Type:</strong> {defect.defectType}
+                                                                </div>
                                                                 <div><strong>Subkind:</strong> {defect.subkind}</div>
                                                             </div>
                                                         ))}
@@ -198,26 +201,27 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
                                 </Row>
                             </div>
                         ))}
+
                         <Button
                             type="dashed"
                             onClick={handleAddStory}
-                            style={{ width: '100%', marginTop: '10px' }}
+                            style={{width: '100%', marginTop: '10px'}}
                         >
                             Add another story
                         </Button>
-                        <Button
-                            type="primary"
-                            onClick={handleAnalyse}
-                            disabled={hasDuplicates}
-                            style={{ width: '100%', marginTop: '10px' }}
-                        >
-                            Analyze
-                        </Button>
+                            <Button
+                                type="primary"
+                                onClick={handleAnalyse}
+                                disabled={hasDuplicates}
+                                style={{width: '100%', marginTop: '10px'}}
+                            >
+                                Analyze
+                            </Button>
                         {errorMessage && (
-                            <div style={{ color: 'red', marginTop: '10px', textAlign: 'center' }}>
-                                {errorMessage}
-                            </div>
-                        )}
+                            <div style={{color: 'red', marginTop: '10px', textAlign: 'center'}}>
+                                    {errorMessage}
+                                </div>
+                            )}
                     </Col>
                 </Row>
             </Fade>
