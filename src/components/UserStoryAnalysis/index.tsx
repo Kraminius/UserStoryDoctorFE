@@ -98,7 +98,7 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
         try {
             const payload = stories
                 .filter((story) => story.text.trim() !== '')
-                .map((story) => ({ StoryText: story.text }));
+                .map((story) => ({ Id: story.id, StoryText: story.text }));
 
             // @ts-ignore
             const response = await axios.post<AnalysisResult[]>(
@@ -113,7 +113,7 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
 
             const updatedStories = stories.map((story) => {
                 const apiResponse = response.data.find(
-                    (res: { userStory: string; }) => res.userStory === story.text
+                    (res: { id: number }) => res.id === story.id
                 );
                 return {
                     ...story,
@@ -125,6 +125,7 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
             console.error('Error analyzing stories:', error);
         }
     };
+
 
     // @ts-ignore
     return (
