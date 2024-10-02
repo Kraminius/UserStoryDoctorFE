@@ -122,11 +122,11 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
 
     return (
         <ContentSection id={id}>
-            <Fade direction="left" triggerOnce>
+            <Fade direction="left" triggerOnce fraction={0.3}>
                 <Row justify="space-between" align="middle">
-                    <Col lg={11} md={11} sm={24} xs={24}>
+                    <Col lg={11} md={11} sm={12} xs={24}>
                         <SvgIcon
-                            src={"product-launch.svg"}
+                            src={"userstorydoc.png"}
                             width="100%"
                             height="100%"
                         />
