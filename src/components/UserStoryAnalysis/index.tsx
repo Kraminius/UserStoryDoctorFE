@@ -102,7 +102,7 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
 
             // @ts-ignore
             const response = await axios.post<AnalysisResult[]>(
-                'http://localhost:8080/api/UserStories/analyze',
+                '/api/UserStories/analyze',  // Updated to use relative path
                 payload,
                 {
                     headers: {
@@ -110,6 +110,7 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
                     },
                 }
             );
+
 
             const updatedStories = stories.map((story) => {
                 const apiResponse = response.data.find(
