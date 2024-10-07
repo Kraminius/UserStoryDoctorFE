@@ -51,8 +51,11 @@ const Index: React.FC = () => {
                         </CounterWrapper>
                     ) : (
                         <CounterWrapper>
-                            <h1>{totalDefects} Defects found in user stories to this day</h1>
+                            <h1>
+                                <span className="defect-count">{totalDefects}</span> Defects found in user stories to this day
+                            </h1>
                         </CounterWrapper>
+
                     )}
                 </ContentWrapper>
 

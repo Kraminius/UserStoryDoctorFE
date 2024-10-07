@@ -2,13 +2,22 @@ import styled from 'styled-components';
 import { Row } from "antd";
 
 export const CounterWrapper = styled.div`
-    margin: 10px 0; // Reduce margin
-    padding: 5px;  // Reduce padding
+    margin: 10px 0;
+    padding: 5px;
+
     h1 {
-        font-size: 1.8rem; // Adjust font size for the defect count
+        font-size: 1.8rem;
         margin: 0;
+
+        .defect-count {
+            font-weight: bold;
+            color: #ff9d20; // A noticeable color like 'Tomato'
+            text-decoration: underline;
+            font-size: 2rem; // Slightly larger than the rest of the text
+        }
     }
 `;
+
 
 export const ContentSection = styled("section")`
     position: relative;
