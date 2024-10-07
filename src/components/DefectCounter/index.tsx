@@ -17,7 +17,7 @@ const Index: React.FC = () => {
     useEffect(() => {
         const fetchDefectLogs = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/userstories/defectlogs');
+                const response = await axios.get('/api/userstories/defectlogs');
                 const logs = response.data as DefectLogEntry[];
 
                 // Calculate the total number of defects from the logs

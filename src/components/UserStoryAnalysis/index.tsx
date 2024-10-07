@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, lazy} from 'react';
 import { Input, Button, Row, Col } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { Fade } from "react-awesome-reveal";
 import { Content, ContentSection, Link } from './styles';
 import { SvgIcon } from "../../common/SvgIcon";
+const DefectCounter = lazy(() => import("../../components/DefectCounter"));
 
 interface Defect {
     defectType: string;
@@ -124,8 +125,10 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
     return (
         <ContentSection id={id}>
             <Fade direction="left" triggerOnce fraction={0.3}>
+
                 <Row justify="space-between" align="middle">
                     <Col lg={11} md={11} sm={12} xs={24}>
+
                         <SvgIcon
                             src={"waving.svg"}
                             width="100%"
@@ -133,6 +136,7 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
                         />
                     </Col>
                     <Col lg={11} md={11} sm={24} xs={24}>
+
                         <h2>User Story Analysis</h2>
                         <Content>
                             Insert your user stories to test them for defects. Tip: Use "Tab" after each user story.
@@ -149,7 +153,8 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
                                         <div style={{display: 'flex', alignItems: 'flex-start'}}>
                                             <Input.TextArea
                                                 id={`story-${story.id}`}
-                                                placeholder="Enter your user story"
+                                                placeholder="Enter your user story, use format:
+                                                As a <<role>>, I want to <<action>>, so that <<objective>>"
                                                 value={story.text}
                                                 onChange={(e) => handleChange(story.id, e.target.value)}
                                                 onKeyDown={(e) => handleKeyDown(e, story.id)}

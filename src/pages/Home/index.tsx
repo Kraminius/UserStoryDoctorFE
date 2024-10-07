@@ -12,35 +12,43 @@ const Container = lazy(() => import("../../common/Container"));
 const ScrollToTop = lazy(() => import("../../common/ScrollToTop"));
 const ContentBlock = lazy(() => import("../../components/ContentBlock"));
 const UserStoryAnalysis = lazy(() => import("../../components/UserStoryAnalysis"));
+const DefectCounter = lazy(() => import('../../components/DefectCounter'));
 
 
 const Home = () => {
-  return (
-    <Container>
-      <ScrollToTop />
-        <UserStoryAnalysis id="about" />
-      <ContentBlock
-        direction="right"
-        title={IntroContent.title}
-        content={IntroContent.text}
-        button={IntroContent.button}
-        icon="developer.svg"
-        id="intro"
-      />
-      <ContentBlock
-        direction="right"
-        title={MissionContent.title}
-        content={MissionContent.text}
-        icon="product-launch.svg"
-        id="mission"
-      />
-      <Contact
-        title={ContactContent.title}
-        content={ContactContent.text}
-        id="contact"
-      />
-    </Container>
-  );
+    return (
+        <Container>
+            <ScrollToTop />
+
+            {/* Defect counter at the top */}
+            <DefectCounter />
+
+            {/* User story analysis component */}
+            <UserStoryAnalysis id="about" />
+
+            {/* Other content blocks */}
+            <ContentBlock
+                direction="right"
+                title={IntroContent.title}
+                content={IntroContent.text}
+                button={IntroContent.button}
+                icon="developer.svg"
+                id="intro"
+            />
+            <ContentBlock
+                direction="right"
+                title={MissionContent.title}
+                content={MissionContent.text}
+                icon="product-launch.svg"
+                id="mission"
+            />
+            <Contact
+                title={ContactContent.title}
+                content={ContactContent.text}
+                id="contact"
+            />
+        </Container>
+    );
 };
 
 export default Home;
