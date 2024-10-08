@@ -18,6 +18,7 @@ interface Story {
 }
 
 interface AnalysisResult {
+    id: number;
     userStory: string;
     defects: Defect[];
 }
@@ -101,23 +102,18 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
                 .filter((story) => story.text.trim() !== '')
                 .map((story) => ({ Id: story.id, StoryText: story.text }));
 
-            // Fetch the response from the API
-
             const response = await axios.post('/api/UserStories/analyze', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-            }) as { data: AnalysisResult[] };
-
-
+            });
 
             // Map the defects received from API back to the stories in the frontend
             const updatedStories = stories.map((story) => {
                 const apiResponse = response.data.find(
-                    (res: AnalysisResult) => res.userStory === story.text
+                    (res: AnalysisResult) => res.id === story.id
                 );
 
-                // Ensure that defects are properly handled and 'None' is rendered
                 return {
                     ...story,
                     defects: apiResponse ? apiResponse.defects : null,
@@ -130,6 +126,7 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
             console.error('Error analyzing stories:', error);
         }
     };
+
 
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>, id: number) => {
