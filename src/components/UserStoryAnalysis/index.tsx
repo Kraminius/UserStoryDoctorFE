@@ -86,13 +86,14 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
             .split('\n')
             .map((text) => text.trim())
             .filter((text) => text !== '')
-            .map((text) => ({ id: Date.now() + Math.random(), text, defects: null }));
+            .map((text, index) => ({ id: Date.now() + index, text, defects: null })); // Ensure IDs are integers
 
         setStories([...stories, ...pastedStories]);
         setBulkStoryInput('');
         setIsModalVisible(false); // Close the modal after adding stories
         setActiveTabKey('1'); // Automatically switch to the "Individual Stories" tab
     };
+
 
     const handleAnalyse = async () => {
         try {
