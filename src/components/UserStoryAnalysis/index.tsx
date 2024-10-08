@@ -173,34 +173,42 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
                                     </div>
 
                                     {/* Render defects if any */}
-                                    {story.defects && story.defects.length > 0 && (
-                                        <div
-                                            style={{
-                                                backgroundColor:
-                                                    story.defects.length === 1 && story.defects[0].defectType === 'None'
-                                                        ? '#d4edda'  // Green for no defects
-                                                        : '#f8d7da', // Red for defects
-                                                padding: '10px',
-                                                marginTop: '5px',
-                                                marginRight: '40px',
-                                            }}
-                                        >
-                                            {story.defects.length === 1 && story.defects[0].defectType === 'None' ? (
+                                    {story.defects ? (
+                                        story.defects.length > 0 ? (
+                                            // If there are defects, display them with a red background
+                                            <div
+                                                style={{
+                                                    backgroundColor: '#f8d7da', // Red for defects
+                                                    padding: '10px',
+                                                    marginTop: '5px',
+                                                    marginRight: '40px',
+                                                }}
+                                            >
+                                                <strong>❌ Defects found:</strong>
+                                                {story.defects.map((defect, idx) => (
+                                                    <div key={idx} style={{ marginLeft: '10px', marginTop: '5px' }}>
+                                                        <div><strong>Defect Type:</strong> {defect.defectType}</div>
+                                                        <div><strong>Subkind:</strong> {defect.subkind}</div>
+                                                        <div><strong>Message:</strong> {defect.message}</div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            // If there are no defects, display the 'No defects found' message with a green background
+                                            <div
+                                                style={{
+                                                    backgroundColor: '#d4edda', // Green for no defects
+                                                    padding: '10px',
+                                                    marginTop: '5px',
+                                                    marginRight: '40px',
+                                                }}
+                                            >
                                                 <span>✅ No defects found</span>
-                                            ) : (
-                                                <>
-                                                    <strong>❌ Defects found:</strong>
-                                                    {story.defects.map((defect, idx) => (
-                                                        <div key={idx} style={{ marginLeft: '10px', marginTop: '5px' }}>
-                                                            <div><strong>Defect Type:</strong> {defect.defectType}</div>
-                                                            <div><strong>Subkind:</strong> {defect.subkind}</div>
-                                                            <div><strong>Message:</strong> {defect.message}</div>
-                                                        </div>
-                                                    ))}
-                                                </>
-                                            )}
-                                        </div>
-                                    )}
+                                            </div>
+                                        )
+                                    ) : null}
+
+
 
 
                                 </Col>
