@@ -250,9 +250,9 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
                         <h2>User Story Analysis</h2>
                         <Content>
                             Insert your user stories to test them for defects. Tip: You can add stories individually or use the bulk insert option.
-                            <br />
-                            This will use the AQUSA-core module described{' '}
-                            <Link href="https://github.com/RELabUU/aqusa-core">here</Link> to look for User Story Defects.
+                            <br /><p>
+                            The analyzer uses the </p>{' '}
+                            <Link href="https://github.com/RELabUU/aqusa-core">AQUSA-core module</Link> to look for User Story Defects.
                         </Content>
 
                         {/* Use the 'items' prop for tabs */}
