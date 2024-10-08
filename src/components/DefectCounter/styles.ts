@@ -11,7 +11,7 @@ export const CounterWrapper = styled.div`
 
         .defect-count {
             font-weight: bold;
-            color: #ff9d20;
+            color: #FE7625;
             text-decoration: underline;
             font-size: 2rem; // Slightly larger than the rest of the text
         }

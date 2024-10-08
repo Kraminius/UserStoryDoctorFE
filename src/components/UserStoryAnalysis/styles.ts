@@ -1,4 +1,4 @@
-import { Row } from "antd";
+import {Row, Tabs} from "antd";
 import styled from "styled-components";
 
 export const ContentSection = styled("section")`
@@ -13,6 +13,25 @@ export const ContentSection = styled("section")`
 export const Content = styled("p")`
   margin: 1.5rem 0 2rem 0;
 `;
+
+export const StyledTabs = styled(Tabs)`
+  .ant-tabs-nav .ant-tabs-tab {
+    color: #18216D; // Set the color of the tab labels
+  }
+
+  .ant-tabs-nav .ant-tabs-tab:hover {
+    color: #18216D; // Set the color on hover
+  }
+
+  .ant-tabs-nav .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: #18216D; // Set the color of the active tab label
+  }
+
+  .ant-tabs-nav .ant-tabs-tab .ant-tabs-tab-btn {
+    color: #18216D;
+  }
+`;
+
 
 
 

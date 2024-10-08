@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Button, Row, Col, Tabs, Modal } from 'antd';
+import { Input, Button, Row, Col, Modal } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { Fade } from 'react-awesome-reveal';
-import { Content, ContentSection, Link } from './styles';
+import { Content, ContentSection, Link, StyledTabs } from './styles';
+
+
 
 interface Defect {
     defectType: string;
@@ -249,14 +251,15 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
                     <Col lg={50} md={50} sm={24} xs={24}>
                         <h2>User Story Analysis</h2>
                         <Content>
-                            Insert your user stories to test them for defects. Tip: You can add stories individually or use the bulk insert option.
-                            <br /><p>
-                            The analyzer uses the </p>{' '}
+                            Insert your user stories to test them for defects.
+                            <br />
+                            The analyzer uses the {' '}
                             <Link href="https://github.com/RELabUU/aqusa-core">AQUSA-core module</Link> to look for User Story Defects.
                         </Content>
 
                         {/* Use the 'items' prop for tabs */}
-                        <Tabs activeKey={activeTabKey} onChange={setActiveTabKey} items={tabItems} />
+                        <StyledTabs activeKey={activeTabKey} onChange={setActiveTabKey} items={tabItems} />
+
 
                         {/* Analyze Button */}
                         <Button
