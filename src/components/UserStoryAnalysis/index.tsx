@@ -102,34 +102,35 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
                 .map((story) => ({ Id: story.id, StoryText: story.text }));
 
             // Fetch the response from the API
-            // @ts-ignore
-            const response = await axios.post<AnalysisResult[]>(
-                '/api/UserStories/analyze',
-                payload,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            );
 
-            // Ensure response.data contains the expected array of stories and defects
+            const response = await axios.post('/api/UserStories/analyze', payload, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }) as { data: AnalysisResult[] };
+
+
+
+            // Map the defects received from API back to the stories in the frontend
             const updatedStories = stories.map((story) => {
                 const apiResponse = response.data.find(
-                    (res: AnalysisResult) => res.userStory === story.text // Explicitly typed 'res'
+                    (res: AnalysisResult) => res.userStory === story.text
                 );
+
+                // Ensure that defects are properly handled and 'None' is rendered
                 return {
                     ...story,
-                    defects: apiResponse ? apiResponse.defects : null, // Map defects back to the story
+                    defects: apiResponse ? apiResponse.defects : null,
                 };
             });
 
-            // Set the updated stories back to state
+            // Set the updated stories in state
             setStories(updatedStories);
         } catch (error) {
             console.error('Error analyzing stories:', error);
         }
     };
+
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>, id: number) => {
         if (e.key === 'Tab' && !e.shiftKey) {
@@ -180,8 +181,8 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
                                             style={{
                                                 backgroundColor:
                                                     story.defects.length === 1 && story.defects[0].defectType === 'None'
-                                                        ? '#d4edda'
-                                                        : '#f8d7da',
+                                                        ? '#d4edda'  // Green for no defects
+                                                        : '#f8d7da', // Red for defects
                                                 padding: '10px',
                                                 marginTop: '5px',
                                                 marginRight: '40px',
@@ -194,21 +195,16 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
                                                     <strong>❌ Defects found:</strong>
                                                     {story.defects.map((defect, idx) => (
                                                         <div key={idx} style={{ marginLeft: '10px', marginTop: '5px' }}>
-                                                            <div>
-                                                                <strong>Defect Type:</strong> {defect.defectType}
-                                                            </div>
-                                                            <div>
-                                                                <strong>Subkind:</strong> {defect.subkind}
-                                                            </div>
-                                                            <div>
-                                                                <strong>Message:</strong> {defect.message}
-                                                            </div>
+                                                            <div><strong>Defect Type:</strong> {defect.defectType}</div>
+                                                            <div><strong>Subkind:</strong> {defect.subkind}</div>
+                                                            <div><strong>Message:</strong> {defect.message}</div>
                                                         </div>
                                                     ))}
                                                 </>
                                             )}
                                         </div>
                                     )}
+
 
                                 </Col>
                             </Row>
