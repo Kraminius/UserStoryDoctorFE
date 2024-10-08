@@ -22,6 +22,7 @@ interface AnalysisResult {
     defects: Defect[];
 }
 
+
 interface UserStoryAnalysisProps {
     id?: string;
 }
@@ -99,6 +100,7 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
                 .filter((story) => story.text.trim() !== '')
                 .map((story) => ({ Id: story.id, StoryText: story.text }));
 
+            // Fetch the response from the API
             // @ts-ignore
             const response = await axios.post<AnalysisResult[]>(
                 '/api/UserStories/analyze',
@@ -110,20 +112,31 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
                 }
             );
 
+            // Ensure response.data contains the expected array of stories and defects
             const updatedStories = stories.map((story) => {
                 const apiResponse = response.data.find(
-                    (res: { id: number }) => res.id === story.id
+                    (res: AnalysisResult) => res.userStory === story.text // Explicitly typed 'res'
                 );
                 return {
                     ...story,
-                    defects: apiResponse ? apiResponse.defects : null,
+                    defects: apiResponse ? apiResponse.defects : null, // Map defects back to the story
                 };
             });
+
+            // Set the updated stories back to state
             setStories(updatedStories);
         } catch (error) {
             console.error('Error analyzing stories:', error);
         }
     };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>, id: number) => {
+        if (e.key === 'Tab' && !e.shiftKey) {
+            e.preventDefault();
+            handleAddStory();
+        }
+    };
+
 
     // Defining tab items array
     const tabItems = [
@@ -142,6 +155,7 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
                                             placeholder="Enter your user story"
                                             value={story.text}
                                             onChange={(e) => handleChange(story.id, e.target.value)}
+                                            onKeyDown={(e) => handleKeyDown(e, story.id)} // Handle "Tab" press to add new story
                                             autoSize={{ minRows: 2, maxRows: 6 }}
                                             style={{ flex: 1 }}
                                         />
@@ -162,6 +176,7 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
                             </Row>
                         </div>
                     ))}
+
                     <Button
                         type="dashed"
                         onClick={handleAddStory}
