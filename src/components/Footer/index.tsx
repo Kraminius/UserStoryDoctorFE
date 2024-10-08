@@ -80,8 +80,6 @@ const Footer = ({ t }: { t: TFunction }) => {
             <Col lg={10} md={10} sm={12} xs={12}>
               <Empty />
               <Language>{t("Address")}</Language>
-              <Para>Mikkel Jürs</Para>
-              <Para>Baunehøjvej 30</Para>
               <Para>4780 Stege</Para>
               <Para>Denmark</Para>
             </Col>
