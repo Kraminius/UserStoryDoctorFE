@@ -209,6 +209,7 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
                                             )}
                                         </div>
                                     )}
+
                                 </Col>
                             </Row>
                         </div>
