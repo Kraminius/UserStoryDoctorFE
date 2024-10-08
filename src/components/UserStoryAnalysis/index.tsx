@@ -172,10 +172,47 @@ const UserStoryAnalysis: React.FC<UserStoryAnalysisProps> = ({ id }) => {
                                             />
                                         )}
                                     </div>
+
+                                    {/* Render defects if any */}
+                                    {story.defects && story.defects.length > 0 && (
+                                        <div
+                                            style={{
+                                                backgroundColor:
+                                                    story.defects.length === 1 && story.defects[0].defectType === 'None'
+                                                        ? '#d4edda'
+                                                        : '#f8d7da',
+                                                padding: '10px',
+                                                marginTop: '5px',
+                                                marginRight: '40px',
+                                            }}
+                                        >
+                                            {story.defects.length === 1 && story.defects[0].defectType === 'None' ? (
+                                                <span>✅ No defects found</span>
+                                            ) : (
+                                                <>
+                                                    <strong>❌ Defects found:</strong>
+                                                    {story.defects.map((defect, idx) => (
+                                                        <div key={idx} style={{ marginLeft: '10px', marginTop: '5px' }}>
+                                                            <div>
+                                                                <strong>Defect Type:</strong> {defect.defectType}
+                                                            </div>
+                                                            <div>
+                                                                <strong>Subkind:</strong> {defect.subkind}
+                                                            </div>
+                                                            <div>
+                                                                <strong>Message:</strong> {defect.message}
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </>
+                                            )}
+                                        </div>
+                                    )}
                                 </Col>
                             </Row>
                         </div>
                     ))}
+
 
                     <Button
                         type="dashed"
